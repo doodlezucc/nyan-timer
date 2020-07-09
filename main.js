@@ -18,7 +18,7 @@ let bgs = [];
 const bgWidth = 1000;
 
 let lol;
-document.onkeydown = function(e) {
+document.onkeydown = function (e) {
     if (e.keyCode == 32) {
         askForGoal();
     }
@@ -31,7 +31,11 @@ function askForGoal() {
 
 function submit(input) {
     var s = input.value;
-    var n = moment().hours(s.substr(0, s.indexOf(":"))).minutes(s.substr(s.indexOf(":") + 1));
+    var n = moment()
+        .hours(s.substr(0, s.indexOf(":")))
+        .minutes(s.substr(s.indexOf(":") + 1))
+        .seconds(0)
+        .milliseconds(0);
     if (n.isValid()) {
         goal = n;
         document.getElementById("input").className = "";
@@ -78,12 +82,13 @@ function begone() {
     t.innerText = "yay";
     lol = setInterval(() => {
         setQuickHue();
-    }, 50);
+    }, 100);
 }
 
 function setQuickHue() {
-    body.style = "transition: 0s; background-color: hsl(0, 0%, " + 100 * Math.random() + "%)";
-    sprites.style.filter = "brightness(0)";
+    body.style = "transition: 0.05s; --hue: " + 360 * Math.random();
+    var hue = 360 * Math.random();
+    //sprites.style.filter = "brightness(0) invert(1)";
     moveQuickly();
     moveQuickly();
     moveQuickly();
@@ -155,7 +160,7 @@ function createEpicImage() {
     img.className = "cat";
     const z = Math.random();
     img.style.height = (minSize + z * (maxSize - minSize)) + "px";
-    img.style.top = (Math.random() * 50) + "%";
+    img.style.top = (Math.random() * 80) + "%";
     obj.img = img;
     //obj.speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
     obj.speed = minSpeed + z * (maxSpeed - minSpeed);

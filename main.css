@@ -42,6 +42,10 @@ div#input {
 	z-index: -1;
 }
 
+#sprites {
+    top: -100px;
+}
+
 img.cat {
     position: absolute;
     height: 100px;
