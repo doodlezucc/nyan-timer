@@ -8,8 +8,14 @@
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
 </head>
 <body id="body">
-    <div>
-        <h1 id="timer">uff</h1>
+    <div class="timer">
+        <h1 id="timer"></h1>
+    </div>
+    <div id="input">
+        <div>
+            <h2>Ziel-Uhrzeit eingeben</h2>
+            <input id="goal" type="text" value="09:15" onkeydown="if (event.keyCode == 13) { submit(this); return false; }">
+        </div>
     </div>
 
     <div id="bgs"></div>

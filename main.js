@@ -7,7 +7,7 @@ const maxSize = 200;
 const body = document.getElementById("body");
 const t = document.getElementById("timer");
 const sprites = document.getElementById("sprites");
-let goal = moment().hour(9).minute(15).second(0).millisecond(0);
+let goal;
 
 let sec = 0;
 let diff = -moment().diff(goal);
@@ -17,30 +17,66 @@ let bgs = [];
 
 const bgWidth = 1000;
 
-const interval = setInterval(() => {
-    diff = -moment().diff(goal);
-    const seconds = moment.utc(diff).seconds();
-    if (sec != seconds) {
-        updateDisplay();
+let lol;
+document.onkeydown = function(e) {
+    if (e.keyCode == 32) {
+        askForGoal();
     }
-    sec = seconds;
-}, 10);
+};
+
+function askForGoal() {
+    if (lol) return;
+    document.getElementById("input").className = "show";
+}
+
+function submit(input) {
+    var s = input.value;
+    var n = moment().hours(s.substr(0, s.indexOf(":"))).minutes(s.substr(s.indexOf(":") + 1));
+    if (n.isValid()) {
+        goal = n;
+        document.getElementById("input").className = "";
+        input.blur();
+    }
+}
+
+askForGoal();
+
+setInterval(() => {
+    window.scrollTo(0, 0);
+}, 20);
+
+let interval;
+function dewit() {
+    interval = setInterval(() => {
+        if (!goal) return;
+        diff = -moment().diff(goal);
+        const seconds = moment.utc(diff).seconds();
+        if (sec != seconds) {
+            updateDisplay();
+        }
+        sec = seconds;
+    }, 10);
+}
+dewit();
 
 function updateDisplay() {
+    const hue = 360 * Math.random();
     if (moment().isBefore(goal)) {
         const m = moment.utc(diff).format("HH:mm:ss");
         t.innerText = m;
-        const hue = 360 * Math.random();
+        setHue(hue);
+    } else if (!goal) {
         setHue(hue);
     } else {
         begone();
     }
 }
 
+
 function begone() {
     clearInterval(interval);
     t.innerText = "yay";
-    setInterval(() => {
+    lol = setInterval(() => {
         setQuickHue();
     }, 50);
 }
